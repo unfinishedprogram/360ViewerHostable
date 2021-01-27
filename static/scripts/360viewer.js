@@ -1,33 +1,29 @@
 let imageIndex = 0;
 var loadedImages = []
 var loadedMats = []
-var panoMat
+var panoMat;
 var running = false;
 var panosphere;
+
 function openFiles() {
-    var images = document.getElementById('import_panoramas').files;
-    document.getElementById('import_panoramas').style.display = "none";
+    element = document.getElementById('import_panoramas')
+    var images = element.files;
+    element.style.display = "none";
+
     function readFile(index) {
         var reader = new FileReader();
-        if (index >= images.length - 1) { return; }
-
+        if (index >= images.length) {return;}
         reader.onload = function (e) {
             loadedMats.push(createPanoMat(e.target.result)); //Adding texture to the precompiled materials
+            console.log(loadedMats);
+            panosphere.material = loadedMats[0];
             readFile(index + 1); //Recursion
         }
         reader.readAsDataURL(images[index]);
     }
+    console.log(loadedMats.length);
     readFile(0);
     main();
-}
-
-function addImageToView(image){
-    //loadedMats.push(createPanoMat(image));
-    if (!running){
-        main();
-    }
-    panosphere.material = createPanoMat(image);
-    
 }
 
 function createPanoMat(image){
@@ -135,11 +131,10 @@ function main() {
     renderer.antialias = true;
     rendererContainer.appendChild(renderer.domElement);
 
-    renderer.domElement.addEventListener('mousemove', mouseMove);
-    renderer.domElement.addEventListener('mousedown', mouseDown);
+    //renderer.domElement.addEventListener('mousemove', mouseMove);
+    //renderer.domElement.addEventListener('mousedown', mouseDown);
     renderer.domElement.addEventListener('mouseup', mouseUp);
-    renderer.domElement.addEventListener('click', moveSphere);
-
+    //renderer.domElement.addEventListener('click', moveSphere);
 
     var sphere = new THREE.SphereBufferGeometry(1, 64, 32);
 
@@ -152,13 +147,13 @@ function main() {
 
 
     scene.add(panosphere);
-    scene.add(panoDot);
-    panoDot.position.z = 1;
+    //scene.add(panoDot);
+    //panoDot.position.z = 1;
 
     function animate() {
+        camera.rotateY(-0.005);
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
     }
     animate();
-
 }

@@ -12,6 +12,8 @@ class panoViewerInstance{
         let temp_mat = new THREE.MeshBasicMaterial({ color: 0xffffff });
         this.panosphere = new THREE.Mesh(sphere_geo, temp_mat);
         this.scene.add(this.panosphere);
+
+        window.onresize = this.resize_update;
     }
 
     add_panorama(panorama){
@@ -27,16 +29,17 @@ class panoViewerInstance{
     }
 
     resize_update(){
+        console.log('resize');
+        console.log(this);
         this.renderer.setSize(this.rendererContainer.clientWidth, this.rendererContainer.clientHeight);
         this.camera.aspect = this.rendererContainer.clientWidth / this.rendererContainer.clientHeight;
         this.camera.updateProjectionMatrix();
     }
-
-    animate(){
-        requestAnimationFrame(this.animate);
+    
+    render(){
+        this.camera.rotation.y -= 0.001;
         this.renderer.render(this.scene, this.camera);
     }
-    
 }
 
 class Animator{
@@ -46,13 +49,11 @@ class Animator{
 
     addInstance(viewer_instance){
         this.instances.push(viewer_instance);
-        console.log(this.instances.length);
     }
     
     animate(){
-        for (viewer in this.instances){
-            console.log(viewer);
-            viewer.renderer.render(viewer.scene, viewer.camera);
+        for(let i = 0; i < this.instances.length; i++){
+            this.instances[i].render();
         }
     }
 }

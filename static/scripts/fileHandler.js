@@ -2,7 +2,6 @@ document.getElementById("import_panoramas").onchange = doSubmit;
 output_files = [];
 viewer_element = document.getElementById('rendererContainer');
 viewer_instance = new panoViewerInstance(viewer_element);
-console.log(viewer_instance);
 //viewer_instance.animate();
 
 function doSubmit() {
@@ -35,5 +34,4 @@ function loadCallback(outFile) {
 animate = function(){
     requestAnimationFrame(animate);
     animator.animate();
-    this.renderer.render(this.scene, this.camera);
 }

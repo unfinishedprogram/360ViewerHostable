@@ -1,64 +1,39 @@
+document.getElementById("import_panoramas").onchange = doSubmit;
+output_files = [];
+viewer_element = document.getElementById('rendererContainer');
+viewer_instance = new panoViewerInstance(viewer_element);
+console.log(viewer_instance);
+//viewer_instance.animate();
 
-function FileHandler(){
-
-    this.getFiles = async function(elementID){
-        let element = document.getElementById(elementID);
-        let files = element.files;
-        let loaded_files = [];
-
-        async function getFile(index){
-            if (index >= files.length) {return;}
-            loaded_files.push(e.target.result);
-        }
-
-
-        function readFile(index){
-            var reader = new FileReader();
-            if (index >= files.length) {return;}
-            reader.onloadend = function(e){
-                loaded_files.push(e.target.result);
-                readFile(index + 1);
-            }
-            reader.readAsDataURL(files[index]);
-        }
-
-        for (let i = 0; i < files.length; i++){
-            var reader = new FileReader();
-            reader.readAsDataURL(files[i]).then();
-        }
-
-        readFile(0);
-        function waitUntilLoaded(){
-            setTimeout(() => {
-                console.log(loaded_files.length);
-                if(loaded_files.length == files.length){
-                    console.log("loaded " + loaded_files.length + " files");
-                } else{
-                    waitUntilLoaded();
-                }
-            }, 200);
-        }
-
-        /////////////////////////////////////////////////////////////
-
-        var inputFiles = document.getElementById(elementID);
-        var promise = Promise.resolve();
-        inputFiles.files.map( file => promise.then(()=> pFileReader(file)));
-        promise.then(() => console.log('all done...'));
-
-        function pFileReader(file){
-            return new Promise((resolve, reject) => {
-                var fr = new FileReader();
-                fr.onload = {
-                loaded_files.push(fr.result);
-                fr.resolve();};  // CHANGE to whatever function you want which would eventually call resolve
-                fr.readAsDataURL(file);
-          });
-        }
-
-
-
-        waitUntilLoaded();
-        return loaded_files;
+function doSubmit() {
+    input_element = document.getElementById("import_panoramas");
+    files = input_element.files;
+    let i = - 1;
+    while (i < files.length - 1) {
+        i++;
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            dataFile = e.target.result;
+            loadCallback(dataFile);
+        };
+        reader.readAsDataURL(files[i]);
     }
+}
+
+function loadCallback(outFile) {
+    output_files.push(outFile);
+    newmat = new Panorama(outFile);
+    viewer_instance.add_panorama(newmat);
+    viewer_instance.set_view_panorama(output_files.length - 1);
+
+    animator = new Animator();
+    animator.addInstance(viewer_instance);
+    
+    animate();
+}
+
+animate = function(){
+    requestAnimationFrame(animate);
+    animator.animate();
+    this.renderer.render(this.scene, this.camera);
 }

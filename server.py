@@ -15,9 +15,9 @@ class MainHandler(tornado.web.RequestHandler):
 class DevpageHandler(tornado.web.RequestHandler):
 
     def get(self):
-        self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+        #self.set_header("Access-Control-Allow-Origin", "*")
+        #self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        #self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
         print(f"{datetime.now()} Sending devpage to client")
         self.render('newIndex.html')
 
@@ -25,9 +25,11 @@ handlers = [
     (r"/", MainHandler),
     (r"/dev", DevpageHandler)
 ]
+
 settings = {
     'debug': True,
-    'static_path': os.path.join(dir_path, "static")
+    'static_path': os.path.join(dir_path, "static"),
+    'media_root': os.path.join(dir_path, "media")
 }
 
 

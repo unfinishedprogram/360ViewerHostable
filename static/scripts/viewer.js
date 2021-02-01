@@ -1,3 +1,5 @@
+
+
 function panoViewerInstance(parent_element) {
     this.panoramas = []
     this.renderer = new THREE.WebGLRenderer();
@@ -125,6 +127,10 @@ function panoViewerInstance(parent_element) {
         requestAnimationFrame(animate);
         this.renderer.render(this.scene, this.camera);
     }
-    this.initalize();
 }
 
+animate = function(){
+    requestAnimationFrame(animate);
+    animator.animate();
+    this.renderer.render(this.scene, this.camera);
+}

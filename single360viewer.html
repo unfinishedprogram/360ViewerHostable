@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImageView</title>
+</head>
+<body style="padding:; margin:0px;">
+    <div id="rendererContainer" style="width:100vw; height:100vh; margin:0px;"></div>
+    <script src="{{ static_url('scripts/three.js') }}"></script>
+    <script src="{{ static_url('scripts/viewerClasses.js') }}"></script>
+
+    <script>
+        var texture;
+        var imageTextureElement = document.createElement('img');
+        imageTextureElement.src = '{{ image }}';
+        canvas_element = document.getElementById("rendererContainer");
+
+        pano_viewer = new PanoViewerInstance(canvas_element);
+
+        pano_viewer.go_fullscreen();
+
+        animator = new Animator();
+        animator.addInstance(pano_viewer);
+
+        add_resize_listner(window, pano_viewer);
+
+        imageTextureElement.onload = function(e) {
+
+            texture = new THREE.Texture( this );
+            texture.needsUpdate = true;
+            material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture, side: THREE.DoubleSide });
+            material.needsUpdate = true;
+            pano_viewer.panosphere.material = material;
+            console.log(pano_viewer);
+            animate();
+
+        };
+
+
+        animate = function(){
+            requestAnimationFrame(animate);
+            animator.animate();
+        }
+    </script>
+</body>
+</html>

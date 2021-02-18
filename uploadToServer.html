@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Image importing</title>
+</head>
+
+<body>
+<form id="form_upload" action="/upload" enctype="multipart/form-data"  method="post">
+    File: <input type="file" name="myfile" accept="image/png">
+    <input type="submit" value="upload">
+</form>
+<a href=""></a>
+
+</body>
+
+<script src="{{ static_url('scripts/three.js') }}"></script>
+<script src="{{ static_url('scripts/viewerClasses.js') }}"></script>
+<script src="{{ static_url('scripts/fileHandler.js') }}"></script>
+
+
+</html>

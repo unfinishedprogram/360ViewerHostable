@@ -29,8 +29,8 @@ class PanoViewerInstance{
     }
 
     go_fullscreen(){
-        this.container_element.style.width = '100vw';
-        this.container_element.style.height ='100vh';
+        this.container_element.style.width = '100%';
+        this.container_element.style.height ='100%';
     }
 
     resize_update(){

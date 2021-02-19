@@ -40,11 +40,9 @@ class UploadHandler(tornado.web.RequestHandler):
         except:
             print("error failed to get extension")
 
-
         file_uuid = database.writeFileToDisk(file1)
 
-
-        self.finish(f"file is uploaded, you can view it here: <a href='/view_pano/{file_uuid}{extension}'>{file_uuid}</a>")
+        self.finish(f"file is uploaded, you can view it<a href='/view_pano/{file_uuid}{extension}'> here</a>")
 
 class PanoViewHandler(tornado.web.RequestHandler):
     def get(self, key):

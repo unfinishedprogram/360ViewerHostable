@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>ImageView</title>
 </head>
-<body style="padding:; margin:0px;">
+<body style="margin: 0px;">
     <div id="rendererContainer" style="width:100vw; height:100vh; margin:0px;"></div>
     <script src="{{ static_url('scripts/three.js') }}"></script>
     <script src="{{ static_url('scripts/viewerClasses.js') }}"></script>
@@ -35,7 +35,6 @@
             animate();
 
         };
-
 
         animate = function(){
             requestAnimationFrame(animate);
